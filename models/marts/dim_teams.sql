@@ -11,10 +11,7 @@ match_stats as (
         sum(case when result = 'draw' then 1 else 0 end) as total_draws,
         sum(case when result = 'loss' then 1 else 0 end) as total_losses,
         sum(goals_scored)                               as total_goals_scored,
-        sum(goals_conceded)                             as total_goals_conceded,
-        -- Home vs away wins
-        sum(case when result = 'win' 
-            and goals_scored > goals_conceded then 1 else 0 end) as total_points
+        sum(goals_conceded)                             as total_goals_conceded
     from {{ ref('int_team_form') }}
     group by team_api_id
 ),
