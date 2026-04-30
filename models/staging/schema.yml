@@ -1,0 +1,77 @@
+version: 2
+
+models:
+  - name: stg_countries
+    description: "One row per country."
+    columns:
+      - name: country_id
+        description: "Primary key."
+        tests: [unique, not_null]
+      - name: country_name
+        tests: [not_null]
+
+  - name: stg_leagues
+    description: "One row per league."
+    columns:
+      - name: league_id
+        tests: [unique, not_null]
+      - name: league_name
+        tests: [not_null]
+
+  - name: stg_teams
+    description: "One row per team."
+    columns:
+      - name: team_id
+        tests: [unique, not_null]
+      - name: team_api_id
+        tests: [unique, not_null]
+      - name: team_long_name
+        tests: [not_null]
+
+  - name: stg_players
+    description: "One row per player."
+    columns:
+      - name: player_id
+        tests: [unique, not_null]
+      - name: player_api_id
+        tests: [unique, not_null]
+      - name: player_name
+        tests: [not_null]
+
+  - name: stg_matches
+    description: "One row per match."
+    columns:
+      - name: match_id
+        tests: [unique, not_null]
+      - name: home_team_api_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_teams')
+              field: team_api_id
+      - name: away_team_api_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_teams')
+              field: team_api_id
+
+  - name: stg_player_attributes
+    description: "Player attribute snapshots over time."
+    columns:
+      - name: player_attr_id
+        tests: [unique, not_null]
+      - name: player_api_id
+        tests: [not_null]
+      - name: snapshot_date
+        tests: [not_null]
+
+  - name: stg_team_attributes
+    description: "Team attribute snapshots over time."
+    columns:
+      - name: team_attr_id
+        tests: [unique, not_null]
+      - name: team_api_id
+        tests: [not_null]
+      - name: snapshot_date
+        tests: [not_null]
