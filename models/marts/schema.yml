@@ -1,0 +1,42 @@
+version: 2
+
+models:
+  - name: fct_matches
+    description: "One row per match with full result info."
+    columns:
+      - name: match_id
+        tests: [unique, not_null]
+      - name: home_result
+        tests:
+          - accepted_values:
+              values: ['win', 'loss', 'draw']
+
+  - name: dim_teams
+    description: "One row per team with career performance metrics."
+    columns:
+      - name: team_id
+        tests: [unique, not_null]
+      - name: team_long_name
+        tests: [not_null]
+
+  - name: dim_players
+    description: "One row per player with latest attributes."
+    columns:
+      - name: player_id
+        tests: [unique, not_null]
+      - name: player_name
+        tests: [not_null]
+
+  - name: dim_leagues
+    description: "One row per league with season summaries."
+    columns:
+      - name: league_id
+        tests: [unique, not_null]
+
+  - name: fct_player_stats
+    description: "One row per player per year with averaged attribute stats."
+    columns:
+      - name: player_api_id
+        tests: [not_null]
+      - name: stat_year
+        tests: [not_null]
