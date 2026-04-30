@@ -1,0 +1,35 @@
+version: 2
+
+models:
+  - name: int_match_results
+    description: "Matches with team names and league joined in. One row per match."
+    columns:
+      - name: match_id
+        tests: [unique, not_null]
+      - name: home_team_name
+        tests: [not_null]
+      - name: away_team_name
+        tests: [not_null]
+      - name: home_result
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['win', 'loss', 'draw']
+
+  - name: int_team_form
+    description: "One row per team per match with rolling form stats."
+    columns:
+      - name: team_api_id
+        tests: [not_null]
+      - name: match_date
+        tests: [not_null]
+      - name: result
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['win', 'loss', 'draw']
+      - name: points
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1, 3]
