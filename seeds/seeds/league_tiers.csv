@@ -1,0 +1,12 @@
+league_name,country_name,tier,confederation,is_top_division
+Premier League,England,1,UEFA,true
+Championship,England,2,UEFA,false
+La Liga,Spain,1,UEFA,true
+Serie A,Italy,1,UEFA,true
+Bundesliga,Germany,1,UEFA,true
+Ligue 1,France,1,UEFA,true
+Eredivisie,Netherlands,1,UEFA,true
+Scottish Premier League,Scotland,1,UEFA,true
+Belgium Jupiler League,Belgium,1,UEFA,true
+Portugal Liga ZON Sagres,Portugal,1,UEFA,true
+Switzerland Super League,Switzerland,1,UEFA,true
