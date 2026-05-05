@@ -42,11 +42,7 @@ all_matches as (
 with_points as (
     select
         *,
-        case
-            when result = 'win'  then 3
-            when result = 'draw' then 1
-            else 0
-        end as points,
+        {{ calculate_points('result') }} as points,
         -- Row number per team ordered by date (used for form window)
         row_number() over (
             partition by team_api_id
