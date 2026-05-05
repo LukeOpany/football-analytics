@@ -18,9 +18,5 @@ select
     home_result,
     goal_difference,
     -- Away result is just the inverse
-    case
-        when home_result = 'win'  then 'loss'
-        when home_result = 'loss' then 'win'
-        else 'draw'
-    end as away_result
+    {{ flip_result('home_result') }} as away_result
 from match_results
