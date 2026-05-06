@@ -56,19 +56,19 @@ The repository is designed as a portfolio-ready analytics engineering project th
 
 ## Project Structure
 
-```text
+```bash
 football-analytics/
-├── analyses/            # Ad hoc analytical SQL queries
-├── macros/              # Reusable dbt macros
-├── models/              # dbt models
-│   ├── staging/         # Cleaned source-level models
-│   ├── intermediate/    # Joined and transformed models
-│   └── marts/           # Final analytics-ready tables
-├── seeds/               # Static CSV files loaded by dbt
-├── snapshots/           # Snapshot models for tracking changes over time
-├── tests/               # Custom dbt tests
-├── dbt_project.yml      # dbt project configuration
-└── README.md
+├── 📁 analyses/            # Ad hoc analytical SQL queries
+├── 📁 macros/              # Reusable dbt macros
+├── 📁 models/
+│   ├── 📁 staging/         # Cleaned source-level models
+│   ├── 📁 intermediate/    # Joined and transformed models
+│   └── 📁 marts/           # Final analytics-ready tables
+├── 📁 seeds/               # Static CSV files loaded by dbt
+├── 📁 snapshots/           # Snapshot models
+├── 📁 tests/               # Custom dbt tests
+├── 📄 dbt_project.yml      # dbt configuration
+└── 📄 README.md
 ```
 
 ---
