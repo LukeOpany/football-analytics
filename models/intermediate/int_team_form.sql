@@ -46,7 +46,7 @@ with_points as (
         -- Row number per team ordered by date (used for form window)
         row_number() over (
             partition by team_api_id
-            order by match_date
+            order by match_date, match_id
         ) as match_number
     from all_matches
 ),
@@ -57,19 +57,19 @@ with_form as (
         -- Points from last 5 games
         sum(points) over (
             partition by team_api_id
-            order by match_date
+            order by match_date, match_id
             rows between 4 preceding and current row
         ) as form_points_last_5,
         -- Goals scored in last 5 games
         sum(goals_scored) over (
             partition by team_api_id
-            order by match_date
+            order by match_date, match_id
             rows between 4 preceding and current row
         ) as form_goals_scored_last_5,
         -- Previous match result (LAG)
         lag(result, 1) over (
             partition by team_api_id
-            order by match_date
+            order by match_date, match_id
         ) as prev_match_result
     from with_points
 )

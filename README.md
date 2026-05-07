@@ -118,10 +118,10 @@ These models are designed for reporting, dashboards, and deeper football analysi
 | Model | Description |
 |---|---|
 | `fct_matches` | One row per match with key match metrics |
-| `fct_player_performance` | Player-level performance metrics |
-| `fct_team_performance` | Team-level match and season performance |
-| `dim_players` | Player profile and reference data |
-| `dim_teams` | Team profile and reference data |
+| `fct_player_stats` | One row per player per year with averaged attribute stats |
+| `dim_players` | One row per player with profile fields and latest attributes |
+| `dim_teams` | One row per team with aggregate match performance metrics |
+| `dim_leagues` | One row per league with country, tier, and match summary fields |
 
 ---
 

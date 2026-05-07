@@ -20,12 +20,16 @@ models:
         tests: [not_null]
 
   - name: dim_players
-    description: "One row per player with latest attributes."
+    description: "One row per player with profile fields and latest attributes."
     columns:
       - name: player_id
         tests: [unique, not_null]
+      - name: player_api_id
+        tests: [unique, not_null]
       - name: player_name
         tests: [not_null]
+      - name: latest_attribute_date
+        description: "Most recent player attribute snapshot date available for the player."
 
   - name: dim_leagues
     description: "One row per league with season summaries."
