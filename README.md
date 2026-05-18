@@ -246,7 +246,6 @@ dbt test
 
 Planned improvements include:
 
-- Add more advanced football metrics
 - Build player comparison models
 - Create team performance dashboards
 - Add expected goals analysis
