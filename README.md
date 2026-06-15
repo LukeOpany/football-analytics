@@ -2,253 +2,137 @@
 
 # Football Analytics
 
-A dbt-powered football analytics project that transforms raw football data into clean, tested, analysis-ready models for team, player, and match performance insights.
+A dbt-powered football analytics project that transforms raw match, team, player, and league data into tested marts for sports analysis.
 
----
+## Problem
 
-## Overview
+Football data is naturally spread across match records, teams, players, leagues, countries, and time-based player attributes. Useful analysis requires repeatable cleaning, consistent identifiers, and reusable metrics for match outcomes, team performance, player profiles, and league summaries.
 
-This project uses **dbt Core** to build a structured analytics pipeline for football data.
+This project turns raw football data into an analytics-ready dbt model layer.
 
-The goal is to transform raw football datasets into reliable analytical models that can support questions around:
+## Dataset / Source
 
-- Team performance
-- Player performance
-- Match outcomes
-- Goals, assists, and attacking output
-- Defensive performance
-- League and competition trends
+The repository models football data represented by dbt sources for:
 
-The project follows a layered dbt architecture:
-
-- **Staging**: clean and standardize raw source data
-- **Intermediate**: combine models and apply reusable business logic
-- **Marts**: create final analysis-ready tables
-
----
-
-## Purpose
-
-This project was built to demonstrate how modern analytics engineering workflows can be applied to football data.
-
-It combines:
-
-- Football analytics
-- SQL-based data transformation
-- dbt modeling best practices
-- Analytics engineering workflows
-- Data quality testing
-- Modular pipeline architecture
-
-The repository is designed as a portfolio-ready analytics engineering project that showcases practical data transformation and sports analytics skills.
-
----
+| Source area | Purpose |
+|---|---|
+| Matches | Match results, teams, dates, goals, and outcomes |
+| Teams | Team identifiers and names |
+| Team attributes | Time-varying team attributes |
+| Players | Player identifiers and profile fields |
+| Player attributes | Time-varying player ratings and skills |
+| Leagues / countries | Competition and country context |
+| `league_tiers.csv` seed | Static league tier mapping |
 
 ## Tech Stack
 
-- **Transformation**: dbt Core
-- **Language**: SQL
-- **Data Modeling**: dbt models
-- **Version Control**: Git / GitHub
-- **Analytics Workflow**: Staging → Intermediate → Marts
+- **Transformation:** dbt Core
+- **Language:** SQL
+- **Modeling pattern:** Staging -> Intermediate -> Marts
+- **Testing:** dbt schema tests
+- **Version control:** Git / GitHub
 
----
+## Architecture / Workflow
 
-## Project Structure
+```mermaid
+flowchart LR
+    A[Raw football sources] --> B[Staging models]
+    B --> C[Intermediate models]
+    C --> D[Mart models]
+    D --> E[Analysis SQL]
 
-```bash
-football-analytics/
-├── 📁 analyses/            # Ad hoc analytical SQL queries
-├── 📁 macros/              # Reusable dbt macros
-├── 📁 models/
-│   ├── 📁 staging/         # Cleaned source-level models
-│   ├── 📁 intermediate/    # Joined and transformed models
-│   └── 📁 marts/           # Final analytics-ready tables
-├── 📁 seeds/               # Static CSV files loaded by dbt
-├── 📁 snapshots/           # Snapshot models
-├── 📁 tests/               # Custom dbt tests
-├── 📄 dbt_project.yml      # dbt configuration
-└── 📄 README.md
+    B --> B1[Clean source fields]
+    C --> C1[Match results and team form logic]
+    D --> D1[Fact and dimension tables]
 ```
 
----
+## Data Model
 
-## Pipeline Layers
+| Model | Grain | Purpose |
+|---|---|---|
+| `fct_matches` | One row per match | Match result and score analysis |
+| `fct_player_stats` | One row per player per year | Averaged player attributes over time |
+| `dim_players` | One row per player | Player profile fields and latest attributes |
+| `dim_teams` | One row per team | Aggregate team performance metrics |
+| `dim_leagues` | One row per league | League, country, tier, and match summary fields |
 
-### Staging
+Intermediate models include:
 
-The staging layer prepares raw football data for analysis.
+- `int_match_results`: standardizes match outcome logic.
+- `int_team_form`: calculates recent team form.
 
-Responsibilities:
+Macros include:
 
-- Rename columns into a consistent format
-- Cast columns into the correct data types
-- Remove unnecessary fields
-- Standardize team, player, and match identifiers
-- Keep transformations simple and source-aligned
+- `calculate_points.sql`: points logic for match outcomes.
+- `flip_result.sql`: reusable result transformation logic.
 
----
+## Results / Hiring Evidence
 
-### Intermediate
+- Built a layered dbt project for sports analytics.
+- Created final fact and dimension models for matches, players, teams, and leagues.
+- Added dbt tests for key mart fields such as `match_id`, `team_id`, `player_id`, and `league_id`.
+- Added reusable macros for football-specific result and points logic.
+- Included analysis queries for league standings, home vs away performance, player rating vs potential, and recent team form.
 
-The intermediate layer applies reusable football analytics logic.
+## Analysis Questions Supported
 
-Responsibilities:
+- Which teams have the strongest home vs away performance?
+- How does recent team form change across matches?
+- Which players show the strongest relationship between rating and potential?
+- How do leagues compare by tier and match volume?
+- Which teams are strongest by wins, losses, draws, and points?
 
-- Join match, team, and player data
-- Create calculated performance metrics
-- Aggregate event-level or match-level data
-- Prepare reusable models for final marts
+## How to Run
 
-Example logic may include:
-
-- Goals per team
-- Player contributions
-- Match-level summaries
-- Team attacking and defensive metrics
-
----
-
-### Marts
-
-The marts layer contains final business-facing analytics models.
-
-These models are designed for reporting, dashboards, and deeper football analysis.
-
-| Model | Description |
-|---|---|
-| `fct_matches` | One row per match with key match metrics |
-| `fct_player_stats` | One row per player per year with averaged attribute stats |
-| `dim_players` | One row per player with profile fields and latest attributes |
-| `dim_teams` | One row per team with aggregate match performance metrics |
-| `dim_leagues` | One row per league with country, tier, and match summary fields |
-
----
-
-## Analytics Use Cases
-
-This project can support analysis such as:
-
-- Which teams are most efficient in attack?
-- Which players contribute most to goals and assists?
-- How do teams perform across different competitions?
-- Which teams are strongest defensively?
-- How does match performance change over time?
-- What patterns exist across wins, losses, and draws?
-
----
-
-## Data Modeling Approach
-
-The project follows analytics engineering best practices:
-
-- Modular SQL models
-- Clear model naming conventions
-- Separation of raw, intermediate, and final models
-- Reusable transformation logic
-- dbt testing for data quality
-- Documentation-ready model structure
-
----
-
-## Getting Started
-
-### Prerequisites
-
-Make sure you have:
-
-- Python 3.11+
-- dbt Core
-- A supported database adapter
-- Git
-
----
-
-### Installation
-
-Clone the repository:
+1. Clone the repository.
 
 ```bash
 git clone https://github.com/LukeOpany/football-analytics.git
 cd football-analytics
 ```
 
-Create and activate a virtual environment:
+2. Create and activate a virtual environment.
 
 ```bash
 python -m venv venv
 source venv/bin/activate
 ```
 
-Install dbt:
+3. Install dbt and your database adapter.
 
 ```bash
 pip install dbt-core
-```
-
-If you are using PostgreSQL, install the PostgreSQL adapter:
-
-```bash
 pip install dbt-postgres
 ```
 
----
-
-## Running the Project
-
-Check your dbt connection:
+4. Configure your dbt profile for the target database.
 
 ```bash
 dbt debug
-```
-
-Run all models:
-
-```bash
 dbt run
-```
-
-Run tests:
-
-```bash
 dbt test
 ```
 
-Generate dbt documentation:
+5. Generate docs when needed.
 
 ```bash
 dbt docs generate
 dbt docs serve
 ```
 
----
+## What I Learned / Production Improvements
 
-## Testing
+This project demonstrates:
 
-The project can use dbt tests to validate data quality.
+- How to use dbt to organize sports analytics logic.
+- How to separate raw cleanup from reusable intermediate transformations.
+- How to create fact and dimension models with clear grains.
+- How to encode domain rules, such as match points and result flipping, in reusable SQL macros.
 
-Common tests include:
+Production next steps:
 
-- `unique` — ensures primary keys are not duplicated
-- `not_null` — ensures required fields are populated
-- `accepted_values` — ensures categorical fields contain valid values
-- `relationships` — ensures foreign keys match related tables
-
-Example:
-
-```bash
-dbt test
-```
-
----
-
-## Future Improvements
-
-Planned improvements include:
-
-- Build player comparison models
-- Create team performance dashboards
-- Add expected goals analysis
-- Add season-over-season trend models
-- Improve dbt documentation and model descriptions
-- Add more tests for data quality
+- Add source freshness checks.
+- Add more relationship tests across match, team, player, and league IDs.
+- Publish dbt docs for lineage review.
+- Add dashboard-ready marts for standings, player comparison, and team form.
+- Add CI to run `dbt build` on pull requests.
